@@ -41,11 +41,10 @@ Directory structure
 
 Usage
 -----
-*WARNING*: please run all scripts for this tool from it's root directory.
-If you do not, it will not now where to place files.
 1. Upon downloading the AI Build System, you should extract it to somewhere on
-   your computer. The location does not matter, and this can be moved later on.
-   Do not rename the folder.
+   your computer. The location does not matter so long as it is somewhere in
+   your *home* directory, and this can be moved later on. Do not rename the
+   folder.
 2. Upon extracting the Build System, you should notice that some files and
    directories are missing. Run *script/bootstrap.sh* to create them.
 3. Edit *config.yml* in an editor of your choice. Do not proceed until you are

@@ -1,4 +1,7 @@
 #!/bin/bash
+cd ~
+cd `find -name Awesomenauts-AI-Build-System`
+
 if [ `ls | grep -c config.yml` = 0 ]; then
   touch config.yml
 fi
