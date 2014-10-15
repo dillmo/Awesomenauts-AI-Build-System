@@ -1,6 +1,5 @@
 #!/bin/bash
-LOCATION=$(find ~ -name Awesomenauts-AI-Build-System)
-cd "$LOCATION"
+cd "$(find ~ -name Awesomenauts-AI-Build-System)"
 
 if [ ! -f config.yml ]; then
   touch config.yml
@@ -41,32 +40,32 @@ fi
 
 # config.yml
 if [ "$(grep -c install-dir < config.yml)" = 0 ]; then
-echo '# Awesomenauts installation location
-install-dir:
+echo "# Awesomenauts installation location
+install-dir: $(find ~ -name Awesomenauts)
 
 # Aliases to AI directories
 # ex:
 #   aliases:
 #     FoxAI: Assassin
 #     SentryAI: Spy
-aliases:' \
+aliases:" \
 >> config.yml
 fi
 
 # patch/new/README.md
 if [ "$(grep -c Copy < patch/new/README.md)" = 0 ]; then
-echo 'Copy your dependency into this directory and modifiy it as you wish.
+echo "Copy your dependency into this directory and modifiy it as you wish.
 After it is as you like, run *script/update.sh* to create the patch. This will
 remove your new file, but you can always find a backup in *dependencies/old*
-after building.' \
+after building." \
 >> patch/new/README.md
 fi
 
 # patch/fixme/README.md
 if [ "$(grep -c Upon < patch/fixme/README.md)" = 0 ]; then
-echo 'Upon the application of a broken patch, the broken files, as well as some
+echo "Upon the application of a broken patch, the broken files, as well as some
 debug files, are dumped into this directory. To fix the patch, modify the XML
-file dumped to repair it. Then, run *update.sh* to fix your patch.' \
+file dumped to repair it. Then, run *update.sh* to fix your patch." \
 >> patch/fixme/README.md
 fi
 
@@ -74,16 +73,16 @@ for i in src/*/; do
   if [ ! -f "${i}"/deps.yml ]; then
     touch "${i}"/deps.yml
     echo \
-'# Add dependencies for your AI to this file. If your dependencies are patched,
+"# Add dependencies for your AI to this file. If your dependencies are patched,
 # use the name of the patch instead of the dependency.
 #
 # ex:
 # dependencies: {VeankoAI, VeankoCheckIfEnemyInCombatRange_Dasher}
 
-dependencies: {}' \
+dependencies: {}" \
     >> "${i}"/deps.yml
   fi
 done
 
-echo 'Initialization complete. Follow README.md for instructions to use the
-Build System'
+echo "Initialization complete. Follow README.md for instructions to use the
+Build System"
