@@ -1,8 +1,8 @@
 #!/bin/bash
 cd "$(find ~ -name Awesomenauts-AI-Build-System)"
 
-if [ ! -f config.yml ]; then
-  touch config.yml
+if [ ! -f config.sh ]; then
+  touch config.sh
 fi
 if [ ! -d src ]; then
   mkdir src
@@ -38,18 +38,16 @@ if [ ! -d bin ]; then
   mkdir bin
 fi
 
-# config.yml
-if [ "$(grep -c install-dir < config.yml)" = 0 ]; then
+# config.sh
+if [ "$(grep -c install-dir < config.sh)" = 0 ]; then
 echo "# Awesomenauts installation location
-install-dir: $(find ~ -name Awesomenauts)
+install-dir=$(find ~ -name Awesomenauts)
 
 # Aliases to AI directories
 # ex:
-#   aliases:
-#     FoxAI: Assassin
-#     SentryAI: Spy
-aliases:" \
->> config.yml
+#   FoxAI=Assassin
+#   SentryAI=Spy" \
+>> config.sh
 fi
 
 # patch/new/README.md
@@ -70,17 +68,16 @@ file dumped to repair it. Then, run *update.sh* to fix your patch." \
 fi
 
 for i in src/*/; do
-  if [ ! -f "${i}"/deps.yml ]; then
-    touch "${i}"/deps.yml
+  if [ ! -f "${i}"/deps.sh ]; then
+    touch "${i}"/deps.sh
     echo \
 "# Add dependencies for your AI to this file. If your dependencies are patched,
 # use the name of the patch instead of the dependency.
 #
 # ex:
-# dependencies: {VeankoAI, VeankoCheckIfEnemyInCombatRange_Dasher}
-
-dependencies: {}" \
-    >> "${i}"/deps.yml
+# dependencies[1]=VeankoAI
+# dependencies[2]=VeankoCheckIfEnemyInCombatRange_Dasher" \
+    >> "${i}"/deps.sh
   fi
 done
 
