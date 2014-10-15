@@ -73,5 +73,20 @@ file dumped to repair it. Then, run *update.sh* to fix your patch.' \
 >> patch/fixme/README.md
 fi
 
+for i in $(ls -d src/*/); do
+  if [ `ls ${i} | grep -c deps.yml` = 0 ]; then
+    touch ${i}/deps.yml
+    echo \
+'# Add dependencies for your AI to this file. If your dependencies are patched,
+# use the name of the patch instead of the dependency.
+#
+# ex:
+# dependencies: {VeankoAI, VeankoCheckIfEnemyInCombatRange_Dasher}
+
+dependencies: {}' \
+    >> ${i}/deps.yml
+  fi
+done
+
 echo 'Initialization complete. Follow README.md for instructions to use the
 Build System'
