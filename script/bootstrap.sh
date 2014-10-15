@@ -44,9 +44,6 @@ if [ "$(grep -c install-dir < config.yml)" = 0 ]; then
 echo '# Awesomenauts installation location
 install-dir:
 
-# Awesomenauts Build System location
-location: '"$LOCATION"'
-
 # Aliases to AI directories
 # ex:
 #   aliases:
