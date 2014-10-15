@@ -1,51 +1,51 @@
 #!/bin/bash
-LOCATION=`find ~ -name Awesomenauts-AI-Build-System`
-cd $LOCATION
+LOCATION=$(find ~ -name Awesomenauts-AI-Build-System)
+cd "$LOCATION"
 
-if [ `ls | grep -c config.yml` = 0 ]; then
+if [ ! -f config.yml ]; then
   touch config.yml
 fi
-if [ `ls | grep -c src` = 0 ]; then
+if [ ! -d src ]; then
   mkdir src
 fi
-if [ `ls | grep -c patch` = 0 ]; then
+if [ ! -d patch ]; then
   mkdir patch
 fi
-if [ `ls patch | grep -c patchfiles` = 0 ]; then
+if [ ! -d patch/patchfiles ]; then
   mkdir patch/patchfiles
 fi
-if [ `ls patch | grep -c new` = 0 ]; then
+if [ ! -d patch/new ]; then
   mkdir patch/new
 fi
-if [ `ls patch/new | grep -c README.md` = 0 ]; then
+if [ ! -f patch/new/README.md ]; then
   touch patch/new/README.md
 fi
-if [ `ls patch | grep -c fixme` = 0 ]; then
+if [ ! -d patch/fixme ]; then
   mkdir patch/fixme
 fi
-if [ `ls patch/fixme | grep -c README.md` = 0 ]; then
+if [ ! -f patch/fixme/README.md ]; then
   touch patch/fixme/README.md
 fi
-if [ `ls | grep -c dependencies` = 0 ]; then
+if [ ! -d dependencies ]; then
   mkdir dependencies
 fi
-if [ `ls dependencies | grep -c old` = 0 ]; then
+if [ ! -d dependencies/old ]; then
   mkdir dependencies/old
 fi
-if [ `ls | grep -c release` = 0 ]; then
+if [ ! -d release ]; then
   mkdir release
 fi
-if [ `ls | grep -c bin` = 0 ]; then
+if [ ! -d bin ]; then
   mkdir bin
 fi
 
 # config.yml
-if [ `cat config.yml | grep -c install-dir` = 0 ]; then
+if [ "$(grep -c install-dir < config.yml)" = 0 ]; then
 echo '# Awesomenauts installation location
 install-dir:
 
 # Awesomenauts Build System location
-location: '$LOCATION'
+location: '"$LOCATION"'
 
 # Aliases to AI directories
 # ex:
@@ -57,7 +57,7 @@ aliases:' \
 fi
 
 # patch/new/README.md
-if [ `cat patch/new/README.md | grep -c Copy` = 0 ]; then
+if [ "$(grep -c Copy < patch/new/README.md)" = 0 ]; then
 echo 'Copy your dependency into this directory and modifiy it as you wish.
 After it is as you like, run *script/update.sh* to create the patch. This will
 remove your new file, but you can always find a backup in *dependencies/old*
@@ -66,16 +66,16 @@ after building.' \
 fi
 
 # patch/fixme/README.md
-if [ `cat patch/fixme/README.md | grep -c Upon` = 0 ]; then
+if [ "$(grep -c Upon < patch/fixme/README.md)" = 0 ]; then
 echo 'Upon the application of a broken patch, the broken files, as well as some
 debug files, are dumped into this directory. To fix the patch, modify the XML
 file dumped to repair it. Then, run *update.sh* to fix your patch.' \
 >> patch/fixme/README.md
 fi
 
-for i in $(ls -d src/*/); do
-  if [ `ls ${i} | grep -c deps.yml` = 0 ]; then
-    touch ${i}/deps.yml
+for i in src/*/; do
+  if [ ! -f "${i}"/deps.yml ]; then
+    touch "${i}"/deps.yml
     echo \
 '# Add dependencies for your AI to this file. If your dependencies are patched,
 # use the name of the patch instead of the dependency.
@@ -84,7 +84,7 @@ for i in $(ls -d src/*/); do
 # dependencies: {VeankoAI, VeankoCheckIfEnemyInCombatRange_Dasher}
 
 dependencies: {}' \
-    >> ${i}/deps.yml
+    >> "${i}"/deps.yml
   fi
 done
 
